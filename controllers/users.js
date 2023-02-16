@@ -110,7 +110,6 @@ const logoutUser = (req, res) => {
 const getProfile = async (req, res) => {
   try {
     const id = req.user.user;
-    console.log(id)
     const user =await User.findById(id).select('-password');
     if (!user) {
       res.status(404).json({ errorMessage: "User not found!" });
@@ -120,6 +119,19 @@ const getProfile = async (req, res) => {
      res.status(404).json({ errorMessage: "User not found!" });
   }
 };
+
+const getUser= async(req,res)=>{
+  try {
+    const id = req.params._id;
+      const user = await User.findOne({_id:id})
+      if(!user){
+          res.status(404).json({errorMessage:"User not found!"})
+      }
+      res.status(200).json(user)
+  } catch (error) {
+      res.status(404).json({errorMessage:"User not found!"})
+  }
+}
 
 const getUsers= async(req,res)=>{
     try {
@@ -139,5 +151,6 @@ module.exports = {
   getProfile,
   logoutUser,
   getUsers,
-  checkLoggedIn
+  checkLoggedIn,
+  getUser
 };

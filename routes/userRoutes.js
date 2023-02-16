@@ -6,7 +6,8 @@ const {
     getProfile,
     logoutUser,
     getUsers,
-    checkLoggedIn
+    checkLoggedIn,
+    getUser
 } = require('./../controllers/users')
 
 const router = express.Router()
@@ -17,6 +18,7 @@ router.get('/checkloggedin',checkLoggedIn);
 router.get('/logout',logoutUser)
 router.post('/profile',checkAuth,getProfile)
 router.get('/users',getUsers)
+router.get('/user/:id',getUser)
 
 
 module.exports= router;
