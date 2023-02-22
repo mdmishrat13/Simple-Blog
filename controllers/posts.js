@@ -23,7 +23,7 @@ const getMyPosts = async(req,res)=>{
     try {
         const user = req.user.user;
         console.log(user)
-        const myPosts = await Post.find({user:user})
+        const myPosts = await Post.find({user:user}).sort({_id:-1})
         res.status(200).json(myPosts)
     } catch (error) {
         res.status(404).json({errorMessage:"Posts not found!"})
@@ -33,9 +33,7 @@ const getMyPosts = async(req,res)=>{
 const deletePost= async(req,res)=>{
     try {
         const user = req.user.user;
-        console.log(user)
         const id = req.params.id
-        console.log(id)
         const post = await Post.find({user:user,_id:id})
         if(!post){
             return res.status(404).json({errorMessage:'post not found!'})
@@ -51,10 +49,7 @@ const deletePost= async(req,res)=>{
 const updatePost= async(req,res)=>{
     try {
         const user = req.user.user;
-        console.log(req.body)
-        console.log(user)
         const id = req.params.id
-        console.log(id)
         const post = await Post.find({user:user,_id:id})
         if(!post){
             return res.status(404).json({errorMessage:'post not found!'})
@@ -69,7 +64,7 @@ const updatePost= async(req,res)=>{
 
 const getPosts = async(req,res)=>{
     try {
-        const posts = await Post.find()
+        const posts = await Post.find().sort({_id:-1}).populate({path:'user'})
         res.status(200).json(posts)
     } catch (error) {
         res.status(404).json({errorMessage:"Posts not found!"})

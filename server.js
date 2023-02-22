@@ -7,6 +7,7 @@ const connectDb = require("./db/db");
 const cors = require('cors')
 const userRouter = require('./routes/userRoutes')
 const postRouter = require('./routes/postRoutes')
+const commentRouter = require('./routes/commentRoutes')
 const cookieParser = require('cookie-parser')
 
 
@@ -22,6 +23,7 @@ app.use(cookieParser())
 
 app.use('/api/v1/auth',userRouter)
 app.use('/api/v1/posts',postRouter)
+app.use('/api/v1/comment',commentRouter)
 
 
 
