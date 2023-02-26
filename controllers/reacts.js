@@ -4,8 +4,7 @@ const createLikes = async (req, res) => {
   try {
     const user = req.user.user;
     const {post} = req.body;
-
-    console.log(user)
+    console.log(post)
     const exists = await Likes.findOne({user,post})
     if(exists){
         return res.status(500).json({errorMessage:'Already Liked!'})
@@ -23,14 +22,13 @@ const removeLikes = async (req, res) => {
     const user = req.user.user;
     const post = req.params.id;
 
-    console.log(user)
     const exists = await Likes.find({user,post})
     if(!exists){
         return res.status(500).json({errorMessage:'Not Liked Yed!'})
     }
 
-    const removedLiked = await Likes.findOneAndRemove({user,post})
-    res.status(201).json(removedLiked)
+    const removed = await Likes.findOneAndRemove({user,post})
+    res.status(201).json(removed)
   } catch (error) {
     res.status(500).json(error.message)
   }
@@ -43,6 +41,19 @@ const getLikes = async(req,res)=>{
         res.status(200).json(reacts)
     } catch (error) {
         res.status(200).json(error.message)
+    }
+}
+const checkLiked = async(req,res)=>{
+    try {
+      const user = req.user.user;
+        const post = req.params.id
+        const data = await Likes.findOne({post,user})
+        if(!data){
+          return res.status(200).json(false)
+        }
+        res.status(200).json(true)
+    } catch (error) {
+        res.status(500).json(error.message)
     }
 }
 
@@ -75,5 +86,6 @@ const createDislikes = async (req, res) => {
 module.exports={
     createLikes,
     getLikes,
-    removeLikes
+    removeLikes,
+    checkLiked
 }

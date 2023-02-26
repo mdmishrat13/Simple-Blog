@@ -22,7 +22,6 @@ const createPost = async(req,res)=>{
 const getMyPosts = async(req,res)=>{
     try {
         const user = req.user.user;
-        console.log(user)
         const myPosts = await Post.find({user:user}).sort({_id:-1})
         res.status(200).json(myPosts)
     } catch (error) {
@@ -38,7 +37,6 @@ const deletePost= async(req,res)=>{
         if(!post){
             return res.status(404).json({errorMessage:'post not found!'})
         }
-        console.log(post)
         const deletedPost = await Post.findOneAndDelete({user:user,_id:id})
         res.status(200).json({status:"Post Deleted Successfully!"})
     } catch (error) {
@@ -54,7 +52,6 @@ const updatePost= async(req,res)=>{
         if(!post){
             return res.status(404).json({errorMessage:'post not found!'})
         }
-        console.log(post)
         const updatedPost = await Post.findByIdAndUpdate({_id:id},req.body,{new:true})
         res.status(200).json({status:"Post Updated Successfully!",data:updatedPost})
     } catch (error) {
@@ -74,7 +71,6 @@ const getPost = async(req,res)=>{
     try {
         const id = req.params.id
         const post = await Post.findById(id)
-        console.log(post)
         res.status(200).json(post)
     } catch (error) {
         res.status(404).json({errorMessage:"Posts not found!"})
