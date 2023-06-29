@@ -5,9 +5,6 @@ const createComment = async (req, res) => {
   try {
     const user = req.user.user;
     const {comment,post} = req.body;
-
-    console.log(user,comment)
-
     const newComment = new Comments({ user, comment,post });
     const savedComment = await newComment.save();
     res.status(201).json(savedComment)
@@ -26,7 +23,40 @@ const getComments = async(req,res)=>{
     }
 }
 
+const deleteComment= async(req,res)=>{
+  try {
+      const user = req.user.user;
+      const id = req.params.id
+      const comment = await Post.find({user:user,_id:id})
+      if(!comment){
+          return res.status(404).json({errorMessage:'Comment not found!'})
+      }
+      const deletedComment=await Comments.findOneAndDelete({user:user,_id:id})
+      res.status(200).json(deletedComment)
+  } catch (error) {
+      res.status(500).json(error.message)
+  }
+}
+
+const updateComment= async(req,res)=>{
+  try {
+      const user = req.user.user;
+      const id = req.params.id
+      const comment = await Comments.find({user:user,_id:id})
+      if(!comment){
+          return res.status(404).json({errorMessage:'Comment not found!'})
+      }
+      const updatedComment = await Comments.findByIdAndUpdate({_id:id},req.body,{new:true})
+      res.status(200).json(updatedComment)
+  } catch (error) {
+      res.status(500).json(error.message)
+      console.log(error.message)
+  }
+}
+
 module.exports={
     createComment,
-    getComments
+    getComments,
+    deleteComment,
+    updateComment
 }

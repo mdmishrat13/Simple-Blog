@@ -1,13 +1,27 @@
-const express = require("express")
-const { createLikes, getLikes,removeLikes, checkLiked } = require("../controllers/reacts")
-const checkAuth = require("../middlewares/checkAuth")
+const express = require("express");
+const {
+  createLikes,
+  getLikes,
+  removeLikes,
+  checkLiked,
+  createDisLikes,
+  getDislikes,
+  removeDisLikes,
+  checkDisLiked,
+} = require("../controllers/reacts");
 
-const router = new express.Router()
+const checkAuth = require("../middlewares/checkAuth");
 
-router.post('/like',checkAuth, createLikes)
-router.get('/like/:id',checkAuth,getLikes)
-router.get('/liked/:id',checkAuth,checkLiked)
-router.delete('/like/:id',checkAuth,removeLikes)
+const router = new express.Router();
 
+router.post("/like", checkAuth, createLikes);
+router.get("/like/:id", checkAuth, getLikes);
+router.get("/liked/:id", checkAuth, checkLiked);
+router.delete("/like/:id", checkAuth, removeLikes);
 
-module.exports= router
+router.post("/dislike", checkAuth, createDisLikes);
+router.get("/dislike/:id", checkAuth, getDislikes);
+router.get("/disliked/:id", checkAuth,checkDisLiked );
+router.delete("/dislike/:id", checkAuth, removeDisLikes);
+
+module.exports = router;

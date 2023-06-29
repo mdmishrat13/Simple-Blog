@@ -16,9 +16,9 @@ router.post('/register',createUser);
 router.post('/login',loginUser);
 router.get('/checkloggedin',checkLoggedIn);
 router.get('/logout',logoutUser)
+router.get('/user',checkAuth, getUser)
 router.post('/profile',checkAuth,getProfile)
 router.get('/users',getUsers)
-router.get('/user/:id',getUser)
 
 
 module.exports= router;

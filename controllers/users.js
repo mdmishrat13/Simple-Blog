@@ -5,7 +5,12 @@ const jwt = require("jsonwebtoken");
 
 const createUser = async (req, res) => {
   try {
-    const { firstName, lastName, email, password } = req.body;
+    const { firstName, lastName, email, password,gender,birthDate } = req.body;
+
+    const newBirthDate = new Date(birthDate)
+    console.log(typeof(newBirthDate))
+    console.log(newBirthDate)
+
     if (!firstName) {
       return res.status(500).json({ errorMessage: "First Name is required!" });
     }
@@ -16,7 +21,17 @@ const createUser = async (req, res) => {
       return res.status(500).json({ errorMessage: "Email is required!" });
     }
     if (!password) {
-      return res.status(500).json({ errorMessage: "Password id required!" });
+      return res.status(500).json({ errorMessage: "Password is required!" });
+    }
+    if (!gender) {
+      return res.status(500).json({ errorMessage: "Gender is required!" });
+    }
+    console.log(typeof(gender))
+    // if (gender.toLocaleLowerCase()!="male"||gender.toLocaleLowerCase()!="female"||gender.toLocaleLowerCase()!='other') {
+    //   return res.status(500).json({ errorMessage: "Gender is not valid!" });
+    // }
+    if (!birthDate) {
+      return res.status(500).json({ errorMessage: "Date of Birth is required!" });
     }
     const exist = await User.findOne({ email });
     if (exist) {
@@ -29,8 +44,11 @@ const createUser = async (req, res) => {
       firstName,
       lastName,
       email,
+      // birthDate:newBirthDate,
+      gender,
       password: hashPassword,
     });
+    console.log(typeof(newUser.birthDate))
     const saveUser = await newUser.save();
 
     const token = jwt.sign(
@@ -46,6 +64,7 @@ const createUser = async (req, res) => {
       })
       .json({status:'Registration Successful!',data:saveUser});
   } catch (error) {
+    console.log(error.message)
     return res.json(error);
   }
 };
@@ -109,7 +128,7 @@ const logoutUser = (req, res) => {
 
 const getProfile = async (req, res) => {
   try {
-    const id = req.user.user;
+    const id = req.params.id;
     const user =await User.findById(id).select('-password');
     if (!user) {
       res.status(404).json({ errorMessage: "User not found!" });
@@ -122,7 +141,7 @@ const getProfile = async (req, res) => {
 
 const getUser= async(req,res)=>{
   try {
-    const id = req.params._id;
+    const id = req.user.user
       const user = await User.findOne({_id:id})
       if(!user){
           res.status(404).json({errorMessage:"User not found!"})
