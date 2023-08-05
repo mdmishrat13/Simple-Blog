@@ -9,7 +9,12 @@ const userRouter = require('./routes/userRoutes')
 const postRouter = require('./routes/postRoutes')
 const commentRouter = require('./routes/commentRoutes')
 const reactRouter = require('./routes/reactRoutes')
+const followRouter = require('./routes/followersRoutes')
 const cookieParser = require('cookie-parser')
+const bodyParser = require('body-parser')
+const fs = require('fs')
+const path = require('path')
+const multer = require('multer')
 
 
 
@@ -26,6 +31,7 @@ app.use('/api/v1/auth',userRouter)
 app.use('/api/v1/posts',postRouter)
 app.use('/api/v1/comment',commentRouter)
 app.use('/api/v1/reacts',reactRouter)
+app.use('/api/v1/follow',followRouter)
 
 
 

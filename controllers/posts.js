@@ -67,6 +67,14 @@ const getPosts = async(req,res)=>{
         res.status(404).json({errorMessage:"Posts not found!"})
     }
 }
+// const getFolloingPosts = async(req,res)=>{
+//     try {
+//         const posts = await Post.find().sort({_id:-1}).populate({path:'user'})
+//         res.status(200).json(posts)
+//     } catch (error) {
+//         res.status(404).json({errorMessage:"Posts not found!"})
+//     }
+// }
 const getPost = async(req,res)=>{
     try {
         const id = req.params.id

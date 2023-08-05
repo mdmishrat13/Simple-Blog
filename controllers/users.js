@@ -2,6 +2,8 @@ const User = require("./../models/Users");
 const colors = require("colors");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const multer = require('multer')
+
 
 const createUser = async (req, res) => {
   try {
@@ -44,7 +46,7 @@ const createUser = async (req, res) => {
       firstName,
       lastName,
       email,
-      // birthDate:newBirthDate,
+      birthDate:newBirthDate,
       gender,
       password: hashPassword,
     });
