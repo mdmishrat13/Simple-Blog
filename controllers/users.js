@@ -10,8 +10,8 @@ const createUser = async (req, res) => {
     const { firstName, lastName, email, password,gender,birthDate } = req.body;
 
     const newBirthDate = new Date(birthDate)
-    console.log(typeof(newBirthDate))
-    console.log(newBirthDate)
+    console.log("consoling birthday",typeof(newBirthDate))
+    console.log("birthday",newBirthDate)
 
     if (!firstName) {
       return res.status(500).json({ errorMessage: "First Name is required!" });
